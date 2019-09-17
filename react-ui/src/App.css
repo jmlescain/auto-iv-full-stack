@@ -1,0 +1,29 @@
+body {
+  background-color: #bec3c3;
+
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.patient-list {
+  flex-grow: 1;
+
+  max-width: 20rem;
+
+  margin: 0 1rem;
+
+}
+
+.details {
+  flex-grow: 3;
+
+}
+
+.notifications {
+  flex-grow: 1;
+}

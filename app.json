@@ -1,0 +1,21 @@
+{
+  "name": "auto-iv",
+  "description": "Automated intravenous pack monitoring system",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
