@@ -1,4 +1,6 @@
 .card {
+    height: 8rem;
+
     margin: 0.5rem 0;
 
     padding: 0.5rem 1rem;
@@ -7,4 +9,8 @@
     border-radius: 0.5rem;
 
     background-color: white;
+}
+
+.card:hover {
+    cursor: pointer;
 }

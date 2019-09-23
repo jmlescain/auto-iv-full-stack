@@ -144,7 +144,7 @@ if (!isDev && cluster.isMaster) {
                 sendValues();
               }).catch(err => {
             console.log(err)
-          })
+          });
         });
 
       }

@@ -31,25 +31,30 @@ function App() {
 
   const [patients, setPatients] = useState([]);
   useEffect(() => {
-    console.log('Patients from server:',patientsFromServer.patients);
-    console.log('IV:',iv);
     let patients = patientsFromServer.patients;
     let ivs = iv;
-    patients.forEach((eachPatient, eachPatientIndex) => {
-      ivs.forEach((eachIv, eachIvIndex) => {
-        if (eachPatient._id === eachIv._id) {
-          patients[eachPatientIndex].iv = ivs[eachIvIndex];
-          setPatients(patients);
-        }
+    if (ivs.length !== 0) {
+      patients.forEach((eachPatient, eachPatientIndex) => {
+        ivs.forEach((eachIv, eachIvIndex) => {
+          if (eachPatient._id === eachIv._id) {
+            patients[eachPatientIndex].iv = ivs[eachIvIndex];
+            setPatients(patients);
+          }
+        })
       })
-    })
+    } else {
+      let i;
+      for (i = 0; i < patients.length; i++) {
+        patients[i].iv = {};
+      }
+      setPatients(patients);
+    }
   }, [patientsFromServer.patients, iv]);
 
   return (
       <div className='container'>
         <div className='patient-list'>
           <PatientList patients={patients} isFetching={patientsFromServer.isFetching}/>
-          {console.log('To component: ',patients)}
         </div>
         <div className='details'>
           <p>Details</p>
