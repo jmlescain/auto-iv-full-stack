@@ -155,8 +155,10 @@ if (!isDev && cluster.isMaster) {
       if (mac) {
         PatientDataSchema.updateOne({mac: mac}, {isConnected: false}, (err, raw) => {
           if (err) console.log(err);
-          if (raw) console.log('A device has disconnected.');
-          sendValues();
+          if (raw) {
+            console.log('A device has disconnected.');
+            sendValues();
+          }
         })
       }
     });
