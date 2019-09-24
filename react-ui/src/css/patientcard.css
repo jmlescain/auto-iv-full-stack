@@ -1,5 +1,5 @@
 .card {
-    height: 8rem;
+    height: 9rem;
 
     margin: 0.5rem 0;
 
@@ -13,4 +13,41 @@
 
 .card:hover {
     cursor: pointer;
+
+    border-color: gray;
 }
+
+.nameDisplay {
+    margin: 1rem auto;
+}
+
+.lastName {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+
+    overflow: hidden;
+}
+
+.dripDisplay{
+    margin: 1rem auto;
+}
+
+.dripDisplay {
+    display: flex;
+    flex-direction: row;
+}
+
+.dripDisplay>* {
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.connectionStatus {
+    background-color: #ffb7b9;
+
+    color: darkred;
+    align-content: center;
+}
+
+
+

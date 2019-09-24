@@ -4,6 +4,7 @@ import axios from 'axios';
 import PatientList from "./components/PatientList";
 
 import './App.css';
+import Details from "./components/Details";
 
 let isDev = process.env.NODE_ENV !== 'production';
 let ioOptions = {transports: ['websocket']};
@@ -51,13 +52,18 @@ function App() {
     }
   }, [patientsFromServer.patients, iv]);
 
+  const [id, setId] = useState('');
+  function getPatientInformation(id) {
+    setId(id)
+  }
+
   return (
       <div className='container'>
         <div className='patient-list'>
-          <PatientList patients={patients} isFetching={patientsFromServer.isFetching}/>
+          <PatientList patients={patients} isFetching={patientsFromServer.isFetching} getPatientInformation={getPatientInformation}/>
         </div>
         <div className='details'>
-          <p>Details</p>
+          <Details id={id}/>
         </div>
         <div className='notifications'>
           <p>Notifications</p>

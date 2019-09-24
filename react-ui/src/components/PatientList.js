@@ -20,6 +20,7 @@ function PatientList(props) {
                        firstName={patient.firstName}
                        middleName={patient.middleName}
                        iv={patient.iv}
+                       getPatientInformation={props.getPatientInformation}
 
           />
       ))}
@@ -30,7 +31,8 @@ function PatientList(props) {
 
 PatientList.propTypes = {
   patients: PropTypes.array,
-  isFetching: PropTypes.bool
+  isFetching: PropTypes.bool,
+  getPatientInformation: PropTypes.func
 };
 
 export default PatientList;

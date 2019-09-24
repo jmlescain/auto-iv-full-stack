@@ -6,13 +6,16 @@ import '../css/patientcard.css';
 function PatientCard(props){
   let dripDisplay;
   let nameDisplay;
+  let currentDripRate;
+  let currentWeight;
+  let connectionStatus;
 
   //Patient Details
   if (props.lastName === undefined) {
-    nameDisplay = props._id;
+    nameDisplay = <div className='lastName'>{props._id}</div>
   } else {
     nameDisplay = <div>
-                    <div>{props.lastName}</div>
+                    <div className='lastName'>{props.lastName}</div>
                     <div>{props.firstName} {props.middleName}</div>
                   </div>
   }
@@ -21,18 +24,23 @@ function PatientCard(props){
   if (Object.entries(props.iv).length === 0 && props.iv.constructor === Object) {
     dripDisplay = 'NO DRIP DATA AVAILABLE'
   } else {
-    let currentDripRate = (props.iv.currentDripRate === undefined) ? '0 gtts' : `${props.iv.currentDripRate} gtts`;
-    let currentWeight = (props.iv.currentWeight === undefined) ? '0 g' : `${props.iv.currentWeight} g`;
-    dripDisplay = <div>
-                    <div>{currentDripRate}</div>
-                    <div>{currentWeight}</div>
-                  </div>
+    currentDripRate = (props.iv.currentDripRate === undefined) ? '0 gtts' : `${props.iv.currentDripRate} gtts`;
+    currentWeight = (props.iv.currentWeight === undefined) ? '0 g' : `${props.iv.currentWeight} g`;
+  }
+
+  if (!props.iv.isConnected) {
+    connectionStatus = 'Device is disconnected';
   }
 
   return (
-      <div className='card'>
-        <div>{nameDisplay}</div>
-        <div>{dripDisplay}</div>
+      <div className='card' onClick={() => {props.getPatientInformation(props._id)}}>
+        <div className='nameDisplay'>{nameDisplay}</div>
+        <div className='dripDisplay'>
+          <div>{dripDisplay}</div>
+          <div>{currentDripRate}</div>
+          <div>{currentWeight}</div>
+        </div>
+        <div className='connectionStatus'>{connectionStatus}</div>
       </div>
   )
 }
@@ -46,8 +54,10 @@ PatientCard.propTypes = {
     targetDripRate: PropTypes.number,
     currentDripRate: PropTypes.number,
     currentWeight: PropTypes.number,
-    estimatedWeightEmpty: PropTypes.number
-  })
+    estimatedWeightEmpty: PropTypes.number,
+    isConnected: PropTypes.bool
+  }),
+  getPatientInformation: PropTypes.func
 };
 
 export default PatientCard;
