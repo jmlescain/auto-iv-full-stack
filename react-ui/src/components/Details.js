@@ -10,7 +10,7 @@ function Details(props) {
   useEffect(() => {
     if (props.id !== '') {
       setIsLoading(true);
-      axios.get(`/api/patient/${props.id}`)
+      axios.get(`/api/patient/${props.id}/full`)
           .then(response => {
             setInformation(response.data);
             setIsLoading(false);

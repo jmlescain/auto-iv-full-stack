@@ -60,10 +60,27 @@ if (!isDev && cluster.isMaster) {
                           });
   });
 
-  app.get('/api/patient/:id', (req, res, next) => {
+  app.get('/api/patient/:id', (req, res) => {
     let id = req.params.id;
     PatientDataSchema.findOne({_id: id},
-        'lastName firstName middleName targetDripRate age weight height gender comments',
+        'lastName firstName middleName',
+        (err, docs) => {
+          if (err) {
+            console.log(err);
+            res.status(500).send('There was an error. Check patient ID.')
+          }
+          if (docs) {
+            res.type('json');
+            res.send(docs);
+          }
+
+        })
+  });
+
+  app.get('/api/patient/:id/full', (req, res) => {
+    let id = req.params.id;
+    PatientDataSchema.findOne({_id: id},
+        'lastName firstName middleName age weight height gender comments',
         (err, docs) => {
                     if (err) {
                       console.log(err);
@@ -81,44 +98,48 @@ if (!isDev && cluster.isMaster) {
 
   // Socket.io things
   io.on('connect', (socket) => {
-    console.log('a device connected');
     let mac;
     let currentDripRate = 0;
 
     socket.on('identify', (msg) => {
-      console.log(msg);
+      //console.log(msg);
       mac = msg.mac;
 
       //check if esp8266 already connected before or is in an active session
       //if patientData is returned from find, session will resume
       //else new patient data is created (assuming there is a new patient)
-      PatientDataSchema.find({mac: msg.mac})
-          .then(patient => {
-                if (patient.length) {
-                  console.log(patient);
-                  PatientDataSchema.updateOne({mac: mac}, {isConnected: true}, (err, raw) => {
-                    if (err) console.log(err);
-                  });
-                  console.log('This device has already connected. Will resume session.');
-                  sendValues()
-                } else {
-                  let patient = new PatientDataSchema({
-                    mac: msg.mac,
-                    ip: msg.ip,
-                    firstConnectDate: Date.now(),
-                    isConnected: true
-                  });
-                  patient.save()
-                      .then(doc => {
-                        console.log(doc);
-                        sendValues();
-                      })
-                      .catch(err => {
-                        console.error(err)
-                      })
-                }
-              }
-          );
+      async function findMac(){
+        try {
+          const docs = await PatientDataSchema.find({mac: msg.mac});
+          if (docs.length) {
+            try {
+              const res = await PatientDataSchema.updateOne({mac: mac}, {isConnected: true});
+              if (res) console.log('a device connected', mac);
+              sendValues()
+            } catch(err) {
+              console.log('There was an error setting device to connected: ', err);
+            }
+          } else {
+            let patient = new PatientDataSchema({
+              mac: msg.mac,
+              ip: msg.ip,
+              firstConnectDate: Date.now(),
+              isConnected: true
+            });
+            try {
+              const res = await patient.save();
+              console.log(res);
+              sendValues()
+            } catch(err) {
+              console.log('There was an error writing new device record: ', err)
+            }
+          }
+        } catch(err) {
+          console.log('There was an error looking for MAC: ', err)
+        }
+      }
+
+      findMac();
     });
 
     socket.on('values', (values) => {
@@ -133,33 +154,46 @@ if (!isDev && cluster.isMaster) {
       if (mac) {
         PatientDataSchema.findOne({mac: mac}, (error, patient) => {
           if (error) console.log(error);
-          patient.currentDripRate = currentDripRate;
-          patient.currentWeight = weight;
-          patient.valueTimeHistory.push(Date.now());
-          patient.dripValueHistory.push(currentDripRate);
-          patient.weightValueHistory.push(weight);
-          patient.save()
-              .then(() => {
-                console.log(`Wrote data for ${patient._id} with Drip Rate: ${currentDripRate}, Weight: ${weight}`);
-                sendValues();
-              }).catch(err => {
-            console.log(err)
-          });
+          async function updateDevice() {
+            try {
+              patient.currentDripRate = currentDripRate;
+              patient.currentWeight = weight;
+              patient.valueTimeHistory.push(Date.now());
+              patient.dripValueHistory.push(currentDripRate);
+              patient.weightValueHistory.push(weight);
+              const res = await patient.save();
+              console.log(`Updated ${res.mac} with Current Drip Rate: ${res.currentDripRate} & Current Weight: ${res.currentWeight}`);
+              sendValues();
+            } catch(err) {
+              console.log('There was an error writing drip and weight data: ', err);
+            }
+          }
+          updateDevice();
         });
-
       }
-
     });
 
     socket.on('disconnect', () => {
       if (mac) {
-        PatientDataSchema.updateOne({mac: mac}, {isConnected: false}, (err, raw) => {
+        async function disconnectMac() {
+          try {
+            const res = await PatientDataSchema.updateOne({mac: mac}, {isConnected: false});
+            if (res) console.log('a device disconnected', mac);
+            sendValues();
+          } catch(err) {
+            console.log('There was an error setting device to disconnected: ',err)
+          }
+        }
+
+        disconnectMac();
+
+        /*PatientDataSchema.updateOne({mac: mac}, {isConnected: false}, (err, raw) => {
           if (err) console.log(err);
           if (raw) {
             console.log('A device has disconnected.');
             sendValues();
           }
-        })
+        })*/
       }
     });
   });
@@ -169,19 +203,32 @@ if (!isDev && cluster.isMaster) {
 
   function sendValues(id) {
     if (id === undefined) {
-      PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight isConnected',
+      async function sendDrips(){
+        try {
+          const docs = await PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight isConnected');
+          if (docs) {
+            io.of('client-web-app').emit('values-basic', docs);
+          }
+        } catch(err) {
+          console.log('There was an error sending values...', err)
+        }
+      }
+
+      sendDrips();
+      /*PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight isConnected',
           (err, docs) => {
             if (err) console.log(err);
             if (docs) {
               io.of('client-web-app').emit('values-basic', docs);
             }
-      })
+      })*/
     }
   }
 
   client.on('connection', socket => {
     console.log('device is a web app client');
 
+    sendValues();
 
   });
 

@@ -16,10 +16,10 @@ function PatientList(props) {
       {props.patients.map((patient) => (
           <PatientCard key={patient._id}
                        _id={patient._id}
-                       lastName={patient.lastName}
-                       firstName={patient.firstName}
-                       middleName={patient.middleName}
-                       iv={patient.iv}
+                       isConnected={patient.isConnected}
+                       targetDripRate={patient.targetDripRate}
+                       currentDripRate={patient.currentDripRate}
+                       currentWeight={patient.currentWeight}
                        getPatientInformation={props.getPatientInformation}
 
           />

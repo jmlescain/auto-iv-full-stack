@@ -16,6 +16,7 @@ body {
   max-width: 20rem;
 
   margin: 0 1rem;
+  overflow: auto;
 
 }
 
@@ -26,4 +27,5 @@ body {
 
 .notifications {
   flex-grow: 1;
+
 }
