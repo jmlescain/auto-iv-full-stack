@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 import PatientList from "./components/PatientList";
 
@@ -18,14 +17,23 @@ const socket = io('/client-web-app', ioOptions);
 function App() {
   const [patientsFromServer, setPatientsFromServer] = useState({patients: [], isFetching: true});
   socket.on('values-basic', (data) => {
-    setPatientsFromServer({patients: data, isFetching: false})
+    setPatientsFromServer({patients: data, isFetching: false});
   });
-
 
   const [id, setId] = useState('');
   function getPatientInformation(id) {
     setId(id)
   }
+
+  const [dripOfCurrentId, setDripOfCurrentId] = useState({});
+  useEffect(() => {
+    if (id) {
+      let patients = patientsFromServer.patients;
+      let patient = patients.find(patient => patient._id === id);
+      setDripOfCurrentId(patient);
+    }
+  }, [patientsFromServer.patients, id]);
+
 
   return (
       <div className='container'>
@@ -33,7 +41,7 @@ function App() {
           <PatientList patients={patientsFromServer.patients} isFetching={patientsFromServer.isFetching} getPatientInformation={getPatientInformation}/>
         </div>
         <div className='details'>
-          <Details id={id}/>
+          <Details id={id} dripData={dripOfCurrentId} getPatientInformation={getPatientInformation}/>
         </div>
         <div className='notifications'>
           <p>Notifications</p>

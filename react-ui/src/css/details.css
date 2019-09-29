@@ -1,7 +1,7 @@
 .notice {
-    display: block;
+    /*display: block;*/
 
-    margin: 5rem auto;
+    margin: 1rem 1rem;;
 
     font-size: 2rem;
     color: gray;
@@ -11,4 +11,62 @@
 
 .details {
     margin: 1rem 1rem;
+}
+
+.backButton {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.backButton:hover {
+    cursor: pointer;
+    filter: opacity(50%);
+}
+
+.id {
+    font-size: 0.75rem;
+    color: #909090;
+}
+
+.name {
+
+}
+
+.name>.lastName {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.name>.noData{
+    font-size: 3rem;
+    font-weight: bold;
+    color: #909090;
+}
+
+.dripData {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 5rem 5rem;
+
+    font-size: 3rem;
+}
+
+.dripData > * {
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.volume {
+    text-align: center;
+}
+
+.percentVolume {
+    margin: -2rem 10rem 0;
+    padding-top: 1rem;
+
+    border-top: 0.1rem solid #909090;
+
+    font-size: 1rem;
 }

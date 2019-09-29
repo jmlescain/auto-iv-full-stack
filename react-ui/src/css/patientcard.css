@@ -1,11 +1,11 @@
 .card {
-    height: 9rem;
+    height: fit-content;
 
     margin: 0.5rem 0;
 
     padding: 0.5rem 1rem;
 
-    border: 2px solid black;
+    border: 3px solid black;
     border-radius: 0.5rem;
 
     background-color: white;
@@ -19,6 +19,10 @@
 
 .nameDisplay {
     margin: 1rem auto;
+
+    padding-bottom: 1rem;
+
+    border-bottom: 0.1rem solid #909090;
 }
 
 .lastName {
@@ -28,13 +32,13 @@
     overflow: hidden;
 }
 
-.dripDisplay{
-    margin: 1rem auto;
-}
-
 .dripDisplay {
+    margin: 1rem auto;
+
     display: flex;
     flex-direction: row;
+
+    font-size: 2rem;
 }
 
 .dripDisplay>* {
@@ -42,12 +46,24 @@
     justify-content: space-between;
 }
 
+.dripIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+
+    margin-right: 0.5rem;
+}
+
 .connectionStatus {
     background-color: #ffb7b9;
 
     color: darkred;
     align-content: center;
+
+    border-radius: 0.25rem;
+    padding: 0.2rem 0.2rem;
 }
+
+
 
 
 

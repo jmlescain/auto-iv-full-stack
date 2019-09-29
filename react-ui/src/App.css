@@ -8,6 +8,8 @@ body {
   display: flex;
   flex-direction: row;
 
+  justify-content: space-between;
+
 }
 
 .patient-list {
@@ -16,8 +18,6 @@ body {
   max-width: 20rem;
 
   margin: 0 1rem;
-  overflow: auto;
-
 }
 
 .details {
@@ -28,4 +28,7 @@ body {
 .notifications {
   flex-grow: 1;
 
+  max-width: 20rem;
+
+  margin: 1rem 0;
 }

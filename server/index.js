@@ -149,6 +149,18 @@ if (!isDev && cluster.isMaster) {
         let dripRatePerSecond = 1000000.00 / pulse;
         currentDripRate = dripRatePerSecond * 60;
         currentDripRate = Math.trunc(currentDripRate);
+      } else if (pulse === 0) {
+        currentDripRate = 0;
+      }
+
+      // A NOTE: FROM HERE ON weight ACTUALLY REFERS TO VOLUME
+      // A weight OF -1 MEANS NO IV PACK IS ATTACHED
+      if (weight <= 30) {
+        weight = -1
+      } else {
+        weight = (weight - 42 )* 0.946969697;
+        if (weight > 500) weight = 500;
+        weight = Math.trunc(weight);
       }
 
       if (mac) {
