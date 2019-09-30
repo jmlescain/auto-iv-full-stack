@@ -254,7 +254,7 @@ if (!isDev && cluster.isMaster) {
     }
   }
 
-  client.on('connection', () => {
+  client.on('connection', (socket) => {
     console.log('device is a web app client');
 
     sendValues();
