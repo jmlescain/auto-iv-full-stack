@@ -5,7 +5,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
@@ -37,13 +37,13 @@ if (!isDev && cluster.isMaster) {
   let database;
   database = require('./database');
   const PatientDataSchema = require('./models/PatientDataSchema');
-  const UserDataSchema = require('./models/UserDataSchema');
+  //const UserDataSchema = require('./models/UserDataSchema');
 
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
   // Answer API requests.
-  app.get('/api/patient', (req, res, next) => {
+  app.get('/api/patient', (req, res) => {
     PatientDataSchema.find({},
                 '_id lastName firstName middleName',
                   {sort: {lastName: 1}} ,
@@ -93,6 +93,23 @@ if (!isDev && cluster.isMaster) {
 
         })
   });
+
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+
+  app.post('/api/edit', ((req, res) => {
+    let {id} = req.body;
+    PatientDataSchema.findByIdAndUpdate(id, req.body, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send(`There was an error! ${err}`);
+      } else if (result) {
+        res.status(200).send();
+        console.log(`Data for ${id} was edited.`);
+        sendValues();
+      }
+    })
+  }));
 
 
 
@@ -217,7 +234,7 @@ if (!isDev && cluster.isMaster) {
     if (id === undefined) {
       async function sendDrips(){
         try {
-          const docs = await PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight isConnected');
+          const docs = await PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight dripFactor isConnected');
           if (docs) {
             io.of('client-web-app').emit('values-basic', docs);
           }
@@ -237,7 +254,7 @@ if (!isDev && cluster.isMaster) {
     }
   }
 
-  client.on('connection', socket => {
+  client.on('connection', () => {
     console.log('device is a web app client');
 
     sendValues();

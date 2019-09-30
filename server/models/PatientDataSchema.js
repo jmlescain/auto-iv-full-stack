@@ -40,6 +40,10 @@ const PatientDataSchema = new Schema(
       currentDripRate: Number,
       dripValueHistory: [Number],
       targetDripRate: Number,
+      dripFactor: {
+        type: Number,
+        default: 15
+      },
 
       //WEIGHT DETAILS
       currentWeight: Number,

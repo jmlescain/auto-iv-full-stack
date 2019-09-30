@@ -1,0 +1,27 @@
+input {
+    font-size: 2rem;
+}
+
+.div-input {
+
+}
+
+.label-input {
+    margin: 0.5rem auto;
+}
+
+.text-area-comment {
+    font-size: 1rem;
+    font-family: sans-serif;
+
+    width: 100%;
+}
+
+.targetDripRateDripFactor {
+    display: flex;
+    flex-direction: row;
+}
+
+.targetDripRateDripFactor>*{
+    width: 10rem;
+}

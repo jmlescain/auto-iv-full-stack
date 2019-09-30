@@ -1,14 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import Modal from 'react-modal';
 
 import '../css/details.css';
 
 import back_button from '../assets/back.png';
+import edit_button from '../assets/edit.png';
+import Editor from "./Editor";
+
+Modal.setAppElement('#root');
 
 function Details(props) {
   const [information, setInformation] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false);
   useEffect(() => {
     if (props.id !== '') {
       setIsLoading(true);
@@ -16,9 +22,33 @@ function Details(props) {
           .then(response => {
             setInformation(response.data);
             setIsLoading(false);
-          })
+          });
+      if (hasChanged === true) {
+        setHasChanged(false);
+      }
     }
-  }, [props.id]);
+  }, [props.id, hasChanged]);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const modalStyle = {
+    content: {
+      width: 'fit-content',
+      margin: 'auto'
+    }
+  };
+
+  function triggerChange(){
+    setHasChanged(true);
+  }
+
+  function openModal() {
+    setShowModal(true)
+  }
+
+  function closeModal() {
+    setShowModal(false);
+  }
 
   if (props.id === '') {
     return <div className='notice'><div>Select a patient to view</div></div>
@@ -28,10 +58,12 @@ function Details(props) {
     return <div className='details'><div className='notice'>Loading...</div></div>
   }
 
-  let {lastName, firstName, middleName, age, weight, gender, comments} = information;
+  let {lastName, firstName, middleName, age, weight, height, gender, comments} = information;
   let currentDripRate = (props.dripData.currentDripRate) ? `${props.dripData.currentDripRate} gtts` : '0 gtts';
   let currentWeight = (props.dripData.currentWeight) ? `${props.dripData.currentWeight} mL` : '0 mL';
+  let dripFactor = (props.dripData.dripFactor) ? props.dripData.dripFactor : 0;
   let percentVolume = Math.trunc((props.dripData.currentWeight / 500) * 100);
+  let targetDripRate = props.dripData.targetDripRate;
 
   return(
       <div className='details'>
@@ -44,14 +76,26 @@ function Details(props) {
           <div>{currentDripRate}</div>
           <div className='volume'>
             <p>{currentWeight}</p>
-            <p className='percentVolume'>{percentVolume} %</p>
+            <p className='percentVolume' title={`Drip Factor: ${dripFactor} gtts/mL`}>{percentVolume} % <br/> {props.dripData.minutesRemaining} minutes until empty</p>
           </div>
         </div>
-        <div>{age && <p>Age: {age} Years Old</p>}</div>
-
-        <div onClick={() => props.getPatientInformation('')}>
-          <img src={back_button} alt='Back' title='Back' className='backButton'/>
+        <div className='genderAge'>
+          <div>{gender && <p>Gender: <span style={{fontWeight: 'bold'}}>{gender}</span></p>}</div>
+          <div>{age && <p>Age: <span style={{fontWeight: 'bold'}}>{age} Years Old</span></p>}</div>
         </div>
+        <div className='weightHeight'>
+          <div>{weight && <p>Weight:<span style={{fontWeight: 'bold'}}>{weight} kg</span></p>}</div>
+          <div>{height && <p>Height: <span style={{fontWeight: 'bold'}}>{age} cm</span></p>}</div>
+        </div>
+        <div>{comments && <p>Notes: <span style={{fontWeight: 'bold'}}>{comments}</span></p>}</div>
+
+        <div className='buttonRow'>
+          <img onClick={() => props.getPatientInformation('')} src={back_button} alt='Back' title='Back' className='backButton'/>
+          <img onClick={() => openModal()} src={edit_button} alt='Edit' title='Edit' className='editButton'/>
+        </div>
+        <Modal isOpen={showModal} ariaHideApp={false} closeTimeoutMS={200} shouldCloseOnOverlayClick={true} onRequestClose={closeModal} style={modalStyle}>
+          <Editor id={props.id} information={information} targetDripRate={targetDripRate} dripFactor={dripFactor} closeModal={closeModal} triggerChange={triggerChange}/>
+        </Modal>
       </div>
   )
 }
@@ -62,7 +106,9 @@ Details.propTypes = { //targetDripRate age weight height gender comments
     currentDripRate: PropTypes.number,
     targetDripRate: PropTypes.number,
     currentWeight: PropTypes.number,
-    isConnected: PropTypes.bool
+    isConnected: PropTypes.bool,
+    minutesRemaining: PropTypes.number,
+    dripFactor: PropTypes.number
   }),
   getPatientInformation: PropTypes.func
   /*_id: PropTypes.string,

@@ -18,7 +18,7 @@ class Database {
     }
 
     _connect() {
-        mongoose.connect(uri, {useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true})
+        mongoose.connect(uri, {useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true, useUnifiedTopology: true})
             .then(() => {
                 console.log('Database connection successful!')
             })

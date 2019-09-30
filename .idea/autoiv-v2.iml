@@ -16,5 +16,6 @@
     <orderEntry type="library" name="@types/socket.io-client" level="application" />
     <orderEntry type="library" name="@types/validator" level="application" />
     <orderEntry type="library" name="@types/mongoose" level="application" />
+    <orderEntry type="library" name="@types/react-modal" level="application" />
   </component>
 </module>

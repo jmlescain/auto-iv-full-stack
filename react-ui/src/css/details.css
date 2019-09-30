@@ -13,12 +13,28 @@
     margin: 1rem 1rem;
 }
 
+.buttonRow{
+    margin-right: 4rem;
+}
+
 .backButton {
     height: 2.5rem;
     width: 2.5rem;
 }
 
 .backButton:hover {
+    cursor: pointer;
+    filter: opacity(50%);
+}
+
+.editButton{
+    height: 2.5rem;
+    width: 2.5rem;
+
+    float: right;
+}
+
+.editButton:hover {
     cursor: pointer;
     filter: opacity(50%);
 }
@@ -69,4 +85,24 @@
     border-top: 0.1rem solid #909090;
 
     font-size: 1rem;
+}
+
+.genderAge {
+    display: flex;
+    flex-direction: row;
+}
+
+.genderAge>* {
+    flex-grow: 1;
+    max-width: 20rem;
+}
+
+.weightHeight {
+    display: flex;
+    flex-direction: row;
+}
+
+.weightHeight>* {
+    flex-grow: 1;
+    max-width: 20rem;
 }

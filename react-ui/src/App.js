@@ -30,6 +30,11 @@ function App() {
     if (id) {
       let patients = patientsFromServer.patients;
       let patient = patients.find(patient => patient._id === id);
+      let {currentDripRate, currentWeight, dripFactor} = patient;
+      let volumePerMinute = currentDripRate / dripFactor;
+      let minutesRemaining = currentWeight / volumePerMinute;
+      minutesRemaining = Math.trunc(minutesRemaining);
+      patient.minutesRemaining = minutesRemaining;
       setDripOfCurrentId(patient);
     }
   }, [patientsFromServer.patients, id]);
