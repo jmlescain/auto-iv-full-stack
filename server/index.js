@@ -236,7 +236,7 @@ if (!isDev && cluster.isMaster) {
         try {
           const docs = await PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight dripFactor isConnected');
           if (docs) {
-            io.of('client-web-app').emit('values-basic', docs);
+            io.of('/client-web-app').emit('values-basic', docs);
             //console.log(`Emitted data for ${docs._id} with ${docs.currentDripRate} and ${docs.currentWeight}`)
           }
         } catch(err) {
