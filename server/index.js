@@ -31,6 +31,7 @@ if (!isDev && cluster.isMaster) {
   const app = express();
   const server = http.createServer(app);
   const io = socketIO(server, ioOptions);
+  const client = io.of('/client-web-app');
 
 
   //DATABASE INITIALIZATION
@@ -228,8 +229,6 @@ if (!isDev && cluster.isMaster) {
   });
 
   //SOCKET.IO FOR WEB APP CLIENTS
-  const client = io.of('/client-web-app');
-
   function sendValues(id) {
     if (id === undefined) {
       async function sendDrips(){
@@ -258,9 +257,7 @@ if (!isDev && cluster.isMaster) {
   client.on('connection', (socket) => {
     console.log('device is a web app client');
 
-    setInterval(() => {
-      sendValues()
-    },1000);
+    sendValues();
 
   });
 
