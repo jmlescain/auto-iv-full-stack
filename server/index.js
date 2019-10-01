@@ -237,7 +237,7 @@ if (!isDev && cluster.isMaster) {
           const docs = await PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight dripFactor isConnected');
           if (docs) {
             io.of('client-web-app').emit('values-basic', docs);
-            console.log(`Emitted data for ${docs._id} with ${docs.currentDripRate} and ${docs.currentWeight}`)
+            //console.log(`Emitted data for ${docs._id} with ${docs.currentDripRate} and ${docs.currentWeight}`)
           }
         } catch(err) {
           console.log('There was an error sending values...', err)
