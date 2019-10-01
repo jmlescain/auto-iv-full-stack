@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -10,10 +10,13 @@ import icon_correct from '../assets/okay.png';
 
 function PatientCard(props) {
   const [patientData, setPatientData] = useState({lastName: null, firstName: null, middleName: null});
-  axios.get(`/api/patient/${props._id}`)
-      .then((response) => {
-        setPatientData(response.data)
-      });
+  useEffect(() => {
+    axios.get(`/api/patient/${props._id}`)
+        .then((response) => {
+          setPatientData(response.data)
+        });
+  }, []);
+
 
   let {lastName, firstName, middleName} = patientData;
 
