@@ -73,7 +73,10 @@ function Details(props) {
           {(lastName || middleName) ? <div>{firstName} {middleName}</div> : <div>{'\u00A0'}</div>}
         </div>
         <div className='dripData'>
-          <div>{currentDripRate}</div>
+          <div className='volume'>
+            <p>{currentDripRate}</p>
+            <p className='target'><br/>Target: {targetDripRate} ggts</p>
+          </div>
           <div className='volume'>
             <p>{currentWeight}</p>
             <p className='percentVolume' title={`Drip Factor: ${dripFactor} gtts/mL`}>{percentVolume} % <br/> {props.dripData.minutesRemaining} minutes until empty</p>
