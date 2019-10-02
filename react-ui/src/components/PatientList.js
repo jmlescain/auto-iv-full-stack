@@ -9,7 +9,12 @@ function PatientList(props) {
     return (
         <p>Loading...</p>
     )
+  } else if (props.patients === undefined || props.patients.length === 0) {
+    return (
+        <p>No device is connected</p>
+    )
   }
+
 
   return(
     <div>
