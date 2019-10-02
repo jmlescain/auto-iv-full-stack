@@ -21,6 +21,7 @@ function PatientList(props) {
                        currentDripRate={patient.currentDripRate}
                        currentWeight={patient.currentWeight}
                        getPatientInformation={props.getPatientInformation}
+                       idChangedCard={props.idChangedCard}
 
           />
       ))}
@@ -32,7 +33,8 @@ function PatientList(props) {
 PatientList.propTypes = {
   patients: PropTypes.array,
   isFetching: PropTypes.bool,
-  getPatientInformation: PropTypes.func
+  getPatientInformation: PropTypes.func,
+  idChangedCard: PropTypes.string
 };
 
 export default PatientList;

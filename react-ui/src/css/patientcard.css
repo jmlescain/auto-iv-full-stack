@@ -17,6 +17,35 @@
     border-color: gray;
 }
 
+@keyframes blink {
+    50% { border-color: #ff6111; }
+    100% { border-color: black; }
+}
+
+.cardAlert{
+    height: fit-content;
+
+    margin: 0.5rem 0;
+
+    padding: 0.5rem 1rem;
+
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 0.5rem;
+
+    background-color: white;
+    animation: blink .5s step-end infinite alternate;
+}
+
+.cardAlert:hover {
+    cursor: pointer;
+
+    border-color: gray;
+}
+
+
+
+
 .nameDisplay {
     margin: 1rem auto;
 

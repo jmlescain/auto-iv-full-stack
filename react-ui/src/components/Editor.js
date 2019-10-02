@@ -135,8 +135,8 @@ Editor.propTypes = {
   dripFactor: PropTypes.number,
   targetDripRate: PropTypes.number,
   closeModal: PropTypes.func,
-  triggerChange: PropTypes.func
-
+  triggerChange: PropTypes.func,
+  //refreshCard: PropTypes.func
 };
 
 export default Editor;

@@ -10,12 +10,18 @@ import icon_correct from '../assets/okay.png';
 
 function PatientCard(props) {
   const [patientData, setPatientData] = useState({lastName: null, firstName: null, middleName: null});
+  const [hasChanged, setHasChanged] = useState(false);
+  /*useEffect(()=>{
+    if (props.idChangedCard === props._id) setHasChanged(true);
+  }, []);*/
+
   useEffect(() => {
     axios.get(`/api/patient/${props._id}`)
         .then((response) => {
           setPatientData(response.data)
         });
-  }, []);
+    if (hasChanged) setHasChanged(false);
+  }, [hasChanged, props.idChangedCard]);
 
 
   let {lastName, firstName, middleName} = patientData;
@@ -33,21 +39,32 @@ function PatientCard(props) {
 
   //IV Details
   let currentDripRate = (props.currentDripRate === undefined) ? '0 gtts' : `${props.currentDripRate} gtts`;
-  let currentWeight = (props.currentWeight === undefined) ? '0 mL' : `${props.currentWeight} mL`;
+  let currentWeight;
+  if (props.currentWeight === undefined) {
+    currentWeight = '0 mL';
+  } else if (props.currentWeight === -1) {
+    currentWeight = 'NO IV'
+  } else {
+    currentWeight = `${props.currentWeight} mL`
+  }
 
   let connectionStatus = (!props.isConnected) ? <div className='connectionStatus'>Device is disconnected.</div> : null ;
 
   let arrow;
+  let cardClass = 'card';
   if (props.currentDripRate > props.targetDripRate) {
     arrow = icon_down;
+    cardClass = 'cardAlert';
   } else if (props.currentDripRate < props.targetDripRate) {
     arrow = icon_up;
+    cardClass = 'cardAlert';
   } else {
     arrow = icon_correct;
+    cardClass = 'card';
   }
 
   return (
-      <div title='Click for more patient details' className='card' onClick={() => {props.getPatientInformation(props._id)}}>
+      <div title='Click for more patient details' className={cardClass} onClick={() => {props.getPatientInformation(props._id)}}>
         <div className='nameDisplay'>{nameDisplay}</div>
         <div className='dripDisplay'>
           <div><img src={arrow} alt='drip_icon' className='dripIcon'/>{currentDripRate}</div>
@@ -71,7 +88,8 @@ PatientCard.propTypes = {
       estimatedWeightEmpty: PropTypes.number,
       isConnected: PropTypes.bool
     }),*/
-  getPatientInformation: PropTypes.func
+  getPatientInformation: PropTypes.func,
+  idChangedCard: PropTypes.string
 };
 
 export default PatientCard;

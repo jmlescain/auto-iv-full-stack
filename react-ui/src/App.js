@@ -4,6 +4,8 @@ import PatientList from "./components/PatientList";
 
 import './App.css';
 import Details from "./components/Details";
+import Notification from "./components/Notification";
+import NotifList from "./components/NotifList";
 
 let isDev = process.env.NODE_ENV !== 'production';
 let ioOptions = {transports: ['websocket']};
@@ -39,17 +41,31 @@ function App() {
     }
   }, [patientsFromServer.patients, id]);
 
+  const [idChangedCard, setIdChangedCard] = useState('');
+  function refreshCard(idChangedCard){
+    setIdChangedCard(idChangedCard);
+  }
+
+  const [notifs, setNotifs] = useState([]);
 
   return (
       <div className='container'>
         <div className='patient-list'>
-          <PatientList patients={patientsFromServer.patients} isFetching={patientsFromServer.isFetching} getPatientInformation={getPatientInformation}/>
+          <PatientList patients={patientsFromServer.patients}
+                       isFetching={patientsFromServer.isFetching}
+                       getPatientInformation={getPatientInformation}
+                       idChangedCard={idChangedCard}
+          />
         </div>
         <div className='details'>
-          <Details id={id} dripData={dripOfCurrentId} getPatientInformation={getPatientInformation}/>
+          <Details id={id}
+                   dripData={dripOfCurrentId}
+                   getPatientInformation={getPatientInformation}
+                   refreshCard={refreshCard}
+          />
         </div>
         <div className='notifications'>
-          <p>Notifications</p>
+          <NotifList notifs={notifs}/>
         </div>
       </div>
   );

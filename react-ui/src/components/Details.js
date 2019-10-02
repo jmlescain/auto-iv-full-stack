@@ -40,6 +40,8 @@ function Details(props) {
 
   function triggerChange(){
     setHasChanged(true);
+    props.refreshCard(props.id);
+    console.log('Triggered!')
   }
 
   function openModal() {
@@ -61,9 +63,25 @@ function Details(props) {
   let {lastName, firstName, middleName, age, weight, height, gender, comments} = information;
   let currentDripRate = (props.dripData.currentDripRate) ? `${props.dripData.currentDripRate} gtts` : '0 gtts';
   let currentWeight = (props.dripData.currentWeight) ? `${props.dripData.currentWeight} mL` : '0 mL';
+  if (props.dripData.currentWeight === -1) {
+    currentWeight = 'NO IV PACK'
+  }
   let dripFactor = (props.dripData.dripFactor) ? props.dripData.dripFactor : 0;
   let percentVolume = Math.trunc((props.dripData.currentWeight / 500) * 100);
   let targetDripRate = props.dripData.targetDripRate;
+  let minutesRemaining = props.dripData.minutesRemaining;
+  let displayTime = {};
+  let displayText;
+  displayTime.hour = Math.trunc(minutesRemaining / 60);
+  displayTime.minutes = minutesRemaining % 60;
+  if (displayTime.hour === 0) {
+    displayText = `${displayTime.minutes} minutes`;
+  } else if (displayTime.hour > 1) {
+    displayText = `${displayTime.hour} hours and ${displayTime.minutes} minutes`;
+  } else if (displayTime.hour === 1) {
+    displayText = `${displayTime.hour} hour and ${displayTime.minutes} minutes`;
+  }
+
 
   return(
       <div className='details'>
@@ -79,7 +97,7 @@ function Details(props) {
           </div>
           <div className='volume'>
             <p>{currentWeight}</p>
-            <p className='percentVolume' title={`Drip Factor: ${dripFactor} gtts/mL`}>{percentVolume} % <br/> {props.dripData.minutesRemaining} minutes until empty</p>
+            <p className='percentVolume' title={`Drip Factor: ${dripFactor} gtts/mL`}>{percentVolume} % <br/> {displayText} until empty</p>
           </div>
         </div>
         <div className='genderAge'>
@@ -113,7 +131,8 @@ Details.propTypes = { //targetDripRate age weight height gender comments
     minutesRemaining: PropTypes.number,
     dripFactor: PropTypes.number
   }),
-  getPatientInformation: PropTypes.func
+  getPatientInformation: PropTypes.func,
+  refreshCard: PropTypes.func
   /*_id: PropTypes.string,
   lastName: PropTypes.string,
   firstName: PropTypes.string,
