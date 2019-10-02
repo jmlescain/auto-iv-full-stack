@@ -17,5 +17,6 @@
     <orderEntry type="library" name="@types/validator" level="application" />
     <orderEntry type="library" name="@types/mongoose" level="application" />
     <orderEntry type="library" name="@types/react-modal" level="application" />
+    <orderEntry type="library" name="@types/socket.io-redis" level="application" />
   </component>
 </module>

@@ -31,6 +31,10 @@ if (!isDev && cluster.isMaster) {
   const app = express();
   const server = http.createServer(app);
   const io = socketIO(server, ioOptions);
+  if (!isDev) {
+    const redis = require('socket.io-redis');
+    io.adapter(redis({host: 'localhost', port: 6379}));
+  }
   const client = io.of('/client-web-app');
 
 
