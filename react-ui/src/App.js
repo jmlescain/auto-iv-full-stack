@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 import PatientList from "./components/PatientList";
 
-import './App.css';
 import Details from "./components/Details";
 import Notification from "./components/Notification";
 import NotifList from "./components/NotifList";
+import './App.css';
+
+import dripAlert from './assets/drip_alert.ogg';
 
 let isDev = process.env.NODE_ENV !== 'production';
 let ioOptions = {transports: ['websocket']};
@@ -14,7 +16,7 @@ if (isDev) {
 }
 
 const io = require('socket.io-client');
-const socket = io('/client-web-app', ioOptions);
+const socket = io('/client-web-app');
 
 function App() {
   const [patientsFromServer, setPatientsFromServer] = useState({patients: [], isFetching: true});

@@ -30,7 +30,7 @@ if (!isDev && cluster.isMaster) {
   }
   const app = express();
   const server = http.createServer(app);
-  const io = socketIO(server, ioOptions);
+  const io = socketIO(server);
   if (!isDev) {
     const redis = require('socket.io-redis');
     io.adapter(redis(process.env.REDIS_URL));
