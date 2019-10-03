@@ -74,12 +74,12 @@ function PatientCard(props) {
 
   let arrow;
   let cardClass = 'card';
-  if (props.currentDripRate > props.targetDripRate + 2) {
+  if (props.currentDripRate > props.targetDripRate + 3) {
     arrow = icon_down;
     cardClass = 'cardAlert';
     audioDrip.loop = true;
     audioDrip.play();
-  } else if (props.currentDripRate < props.targetDripRate - 2) {
+  } else if (props.currentDripRate < props.targetDripRate - 3) {
     arrow = icon_up;
     cardClass = 'cardAlert';
     audioDrip.loop = true;
