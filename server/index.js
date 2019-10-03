@@ -236,19 +236,27 @@ if (!isDev && cluster.isMaster) {
   //SOCKET.IO FOR WEB APP CLIENTS
   function sendValues(id) {
     if (id === undefined) {
-      async function sendDrips(){
+      PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight dripFactor isConnected', (err, docs) =>{
+        if (err) console.log('There was an error sending values...',err);
+        if (docs) io.of('/client-web-app').emit('values-basic', docs);
+      })
+    }
+    /*if (id === undefined) {
+      async function sendDrips() {
         try {
           const docs = await PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight dripFactor isConnected');
           if (docs) {
             io.of('/client-web-app').emit('values-basic', docs);
             //console.log(`Emitted data for ${docs._id} with ${docs.currentDripRate} and ${docs.currentWeight}`)
           }
-        } catch(err) {
+        } catch (err) {
           console.log('There was an error sending values...', err)
         }
       }
+    }*/
 
-      sendDrips();
+
+
       /*PatientDataSchema.find({}, '_id targetDripRate currentDripRate currentWeight isConnected',
           (err, docs) => {
             if (err) console.log(err);
@@ -256,13 +264,14 @@ if (!isDev && cluster.isMaster) {
               io.of('client-web-app').emit('values-basic', docs);
             }
       })*/
-    }
+
   }
 
   client.on('connection', (socket) => {
     console.log('device is a web app client');
 
     sendValues();
+    //setInterval(() => {sendValues()}, 1000);
 
   });
 

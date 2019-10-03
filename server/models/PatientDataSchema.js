@@ -48,7 +48,7 @@ const PatientDataSchema = new Schema(
       //WEIGHT DETAILS
       currentWeight: Number,
       weightValueHistory: [Number],
-      estimatedWeightEmpty: Date
+      estimatedWeightEmpty: Number
     }
 );
 
