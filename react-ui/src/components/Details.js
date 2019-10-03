@@ -93,7 +93,7 @@ function Details(props) {
         <div className='dripData'>
           <div className='volume'>
             <p>{currentDripRate}</p>
-            <p className='target'><br/>Target: {targetDripRate} gtts</p>
+            <p className='target'><br/>Target: {targetDripRate} ggts</p>
           </div>
           <div className='volume'>
             <p>{currentWeight}</p>
