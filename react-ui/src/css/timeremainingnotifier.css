@@ -1,0 +1,14 @@
+@keyframes blink {
+    50% { background-color: #ffb7b9; }
+    100% { background-color: white; }
+}
+
+.timeRemainingNotifier {
+    color: darkred;
+    align-content: center;
+
+    border-radius: 0.25rem;
+    padding: 0.2rem 0.2rem;
+
+    animation: blink .5s step-end infinite alternate;
+}

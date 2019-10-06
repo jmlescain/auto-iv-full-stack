@@ -4,8 +4,6 @@ import PatientList from "./components/PatientList";
 
 import './App.css';
 
-import emptyAlertAudio from './assets/empty_alert.mp3';
-
 let isDev = process.env.NODE_ENV !== 'production';
 let ioOptions = {transports: ['websocket']};
 if (isDev) {
@@ -72,10 +70,10 @@ function App() {
     }
   }, [patientsFromServer.patients, id]);*/
 
-  const [idChangedCard, setIdChangedCard] = useState('');
+  /*const [idChangedCard, setIdChangedCard] = useState('');
   function refreshCard(idChangedCard){
     setIdChangedCard(idChangedCard);
-  }
+  }*/
 
 
   return (
@@ -83,7 +81,6 @@ function App() {
           <PatientList patients={patientsFromServer.patients}
                        isFetching={patientsFromServer.isFetching}
                        getPatientInformation={getPatientInformation}
-                       idChangedCard={idChangedCard}
           />
       </div>
   );

@@ -4,16 +4,10 @@ import axios from 'axios';
 
 import '../css/patientcard.css';
 
-import icon_up from '../assets/up.png';
-import icon_down from '../assets/down.png';
-import icon_correct from '../assets/okay.png';
-
-import dripAlert from '../assets/drip_alert.ogg';
-import notifAlert from '../assets/notif.mp3';
+import PatientName from "./PatientName";
+import DripData from "./DripData";
 
 function PatientCard(props) {
-  const [audioDrip] = useState(new Audio(dripAlert));
-  const [audioAlert] = useState(new Audio(notifAlert));
   const [patientData, setPatientData] = useState({lastName: null, firstName: null, middleName: null});
   const [hasChanged, setHasChanged] = useState(false);
   /*useEffect(()=>{
@@ -31,55 +25,19 @@ function PatientCard(props) {
 
   let {lastName, firstName, middleName} = patientData;
 
-  //Patient Details
-  let nameDisplay;
-  if (!lastName) {
-    nameDisplay = <div className='lastName'>{props._id}</div>;
-  } else {
-    nameDisplay = <div>
-      <div className='lastName'>{lastName.toUpperCase()}</div>
-      <div>{firstName} {middleName}</div>
-    </div>
-  }
-
   //IV Details
-  let currentDripRate = (props.currentDripRate === undefined) ? '0 gtts' : `${props.currentDripRate} gtts`;
-  let currentWeight;
-  if (props.currentWeight === undefined) {
-    currentWeight = '0 mL';
-  } else if (props.currentWeight === -1) {
-    currentWeight = 'NO IV'
-  } else {
-    currentWeight = `${props.currentWeight} mL`
-  }
+
 
   let connectionStatus = (!props.isConnected) ? <div className='connectionStatus'>Device is disconnected.</div> : null ;
 
-  let arrow;
-  let cardClass = 'card';
-  if (props.currentDripRate > props.targetDripRate + 3) {
-    arrow = icon_down;
-    cardClass = 'card cardAlert';
-    audioDrip.loop = true;
-    audioDrip.play();
-  } else if (props.currentDripRate < props.targetDripRate - 3) {
-    arrow = icon_up;
-    cardClass = 'card cardAlert';
-    audioDrip.loop = true;
-    audioDrip.play();
-  } else {
-    arrow = icon_correct;
-    cardClass = 'card';
-    audioDrip.pause();
-  }
-
   return (
-      <div title='Click for more patient details' className={cardClass} onClick={() => {props.getPatientInformation(props._id)}}>
-        <div className='nameDisplay'>{nameDisplay}</div>
-        <div className='dripDisplay'>
-          <div><img src={arrow} alt='drip_icon' className='dripIcon'/>{currentDripRate}</div>
-          <div>{currentWeight}</div>
-        </div>
+      <div title='Click for more patient details' className='card' onClick={() => {props.getPatientInformation(props._id)}}>
+        <PatientName id={props._id} lastName={lastName} firstName={firstName} middleName={middleName}/>
+        <DripData currentDripRate={props.currentDripRate}
+                  currentWeight={props.currentWeight}
+                  targetDripRate={props.targetDripRate}
+                  dripFactor={props.dripFactor}
+        />
         {connectionStatus}
       </div>
   )
@@ -90,6 +48,7 @@ PatientCard.propTypes = {
   currentDripRate: PropTypes.number,
   currentWeight: PropTypes.number,
   targetDripRate: PropTypes.number,
+  dripFactor: PropTypes.number,
   isConnected: PropTypes.bool,
   /*  iv: PropTypes.shape({
       targetDripRate: PropTypes.number,

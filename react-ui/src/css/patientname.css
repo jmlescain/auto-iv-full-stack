@@ -1,0 +1,19 @@
+.patient-name {
+    height: 3.5rem;
+
+    margin: 1rem auto;
+    padding-bottom: 1rem;
+
+    border-bottom: 0.1rem solid #909090;
+}
+
+.lastName {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+
+    overflow: hidden;
+}
+
+.firstMiddleName {
+    font-size: 1rem;
+}

@@ -25,6 +25,7 @@ function PatientList(props) {
                        isConnected={patient.isConnected}
                        targetDripRate={patient.targetDripRate}
                        currentDripRate={patient.currentDripRate}
+                       dripFactor={patient.dripFactor}
                        currentWeight={patient.currentWeight}
                        getPatientInformation={props.getPatientInformation}
                        idChangedCard={props.idChangedCard}

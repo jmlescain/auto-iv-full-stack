@@ -1,0 +1,38 @@
+.dripDisplay {
+    margin: 1rem auto;
+
+    display: flex;
+    flex-direction: row;
+
+    font-size: 2rem;
+}
+
+.dripDisplay>* {
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.dripIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+
+    margin-right: 0.5rem;
+}
+
+.divDripRate {
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+    padding-left: 0.5rem;
+
+    border-radius: 0.25rem;
+}
+
+@keyframes blink {
+    50% { background-color: #ff6111; }
+    100% { background-color: white; }
+}
+
+.blinkDrip{
+    animation: blink .5s step-end infinite alternate;
+}

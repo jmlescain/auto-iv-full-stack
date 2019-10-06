@@ -4,7 +4,7 @@
 
     margin: 0.5rem 0.25rem;
 
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
 
     border: 3px solid black;
     border-radius: 0.5rem;
@@ -37,41 +37,6 @@
     border-color: gray;
 }
 
-.nameDisplay {
-    margin: 1rem auto;
-
-    padding-bottom: 1rem;
-
-    border-bottom: 0.1rem solid #909090;
-}
-
-.lastName {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-
-    overflow: hidden;
-}
-
-.dripDisplay {
-    margin: 1rem auto;
-
-    display: flex;
-    flex-direction: row;
-
-    font-size: 2rem;
-}
-
-.dripDisplay>* {
-    flex-grow: 1;
-    justify-content: space-between;
-}
-
-.dripIcon {
-    height: 1.5rem;
-    width: 1.5rem;
-
-    margin-right: 0.5rem;
-}
 
 .connectionStatus {
     background-color: #ffb7b9;
