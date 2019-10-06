@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import ReactNotification, { store } from 'react-notifications-component';
 
 import '../css/patientcard.css';
 
@@ -26,22 +25,6 @@ function PatientCard(props) {
         .then((response) => {
           setPatientData(response.data);
 
-          //notifier if patient has no last name
-          if (!response.data.lastName) {
-            audioAlert.play();
-            store.addNotification({
-              title: "No Name",
-              message: `Please set a last name for ${response.data._id}`,
-              type: "info",
-              insert: "bottom",
-              container: "bottom-right",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 0
-              }
-            });
-          }
         });
     if (hasChanged) setHasChanged(false);
   }, [hasChanged, props.idChangedCard]);
@@ -76,12 +59,12 @@ function PatientCard(props) {
   let cardClass = 'card';
   if (props.currentDripRate > props.targetDripRate + 3) {
     arrow = icon_down;
-    cardClass = 'cardAlert';
+    cardClass = 'card cardAlert';
     audioDrip.loop = true;
     audioDrip.play();
   } else if (props.currentDripRate < props.targetDripRate - 3) {
     arrow = icon_up;
-    cardClass = 'cardAlert';
+    cardClass = 'card cardAlert';
     audioDrip.loop = true;
     audioDrip.play();
   } else {

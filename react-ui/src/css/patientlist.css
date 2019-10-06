@@ -1,0 +1,16 @@
+.patient-list{
+    display: flex;
+    flex-direction: row;
+}
+
+@media all and (max-width: 800px) {
+    .patient-list {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+
+        margin: 0 auto;
+    }
+}
+

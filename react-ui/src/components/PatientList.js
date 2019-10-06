@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import '../css/patientlist.css';
+
 import PatientCard from "./PatientCard";
 
 function PatientList(props) {
@@ -17,7 +18,7 @@ function PatientList(props) {
 
 
   return(
-    <div>
+    <div className='patient-list'>
       {props.patients.map((patient) => (
           <PatientCard key={patient._id}
                        _id={patient._id}

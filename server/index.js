@@ -196,6 +196,7 @@ if (!isDev && cluster.isMaster) {
               patient.valueTimeHistory.push(Date.now());
               patient.dripValueHistory.push(currentDripRate);
               patient.weightValueHistory.push(weight);
+              patient.isConnected = true;
               const res = await patient.save();
               console.log(`Updated ${res.mac} with Current Drip Rate: ${res.currentDripRate} & Current Weight: ${res.currentWeight}`);
               sendValues();
@@ -267,7 +268,7 @@ if (!isDev && cluster.isMaster) {
 
   }
 
-  client.on('connection', (socket) => {
+  client.on('connection', () => {
     console.log('device is a web app client');
 
     sendValues();

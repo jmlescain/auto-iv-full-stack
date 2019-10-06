@@ -5,30 +5,6 @@ body {
 }
 
 .container {
-  display: flex;
-  flex-direction: row;
-
-  justify-content: space-between;
 
 }
 
-.patient-list {
-  flex-grow: 1;
-
-  max-width: 20rem;
-
-  margin: 0 1rem;
-}
-
-.details {
-  flex-grow: 3;
-
-}
-
-.notifications {
-  flex-grow: 1;
-
-  max-width: 20rem;
-
-  margin: 1rem 0;
-}

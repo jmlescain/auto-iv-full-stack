@@ -1,7 +1,8 @@
 .card {
-    height: fit-content;
+    width: 20rem;
+    height: 12rem;
 
-    margin: 0.5rem 0;
+    margin: 0.5rem 0.25rem;
 
     padding: 0.5rem 1rem;
 
@@ -23,17 +24,10 @@
 }
 
 .cardAlert{
-    height: fit-content;
-
-    margin: 0.5rem 0;
-
-    padding: 0.5rem 1rem;
-
     border-style: solid;
     border-width: 3px;
     border-radius: 0.5rem;
 
-    background-color: white;
     animation: blink .5s step-end infinite alternate;
 }
 
@@ -42,9 +36,6 @@
 
     border-color: gray;
 }
-
-
-
 
 .nameDisplay {
     margin: 1rem auto;
