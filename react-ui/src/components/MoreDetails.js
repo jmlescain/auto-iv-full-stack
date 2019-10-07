@@ -36,7 +36,7 @@ function MoreDetails(props){
         {(!age && !weight && !height && !gender && !comments) &&
             <p>No Additional Data</p>
         }
-        <div className='container'>
+        <div className='containerMoreDetails'>
           <div>
             <div>
               <div>{gender && <p>Gender: <span style={{fontWeight: 'bold'}}>{gender}</span></p>}</div>
