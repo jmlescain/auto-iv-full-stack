@@ -1,6 +1,7 @@
 .patient-list{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 @media all and (max-width: 800px) {

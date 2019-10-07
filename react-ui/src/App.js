@@ -51,10 +51,10 @@ function App() {
     }
   }, [shouldAlertPlay]);*/
 
-  const [id, setId] = useState('');
+/*  const [id, setId] = useState('');
   function getPatientInformation(id) {
     setId(id)
-  }
+  }*/
 
   /*const [dripOfCurrentId, setDripOfCurrentId] = useState({});
   useEffect(() => {
@@ -80,7 +80,6 @@ function App() {
       <div className='container'>
           <PatientList patients={patientsFromServer.patients}
                        isFetching={patientsFromServer.isFetching}
-                       getPatientInformation={getPatientInformation}
           />
       </div>
   );

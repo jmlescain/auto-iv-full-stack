@@ -7,25 +7,28 @@ import '../css/timeremainingnotifier.css';
 
 function TimeRemainingNotifier(props) {
   const [alarm] = useState(new Audio(emptyAlertAudio));
+  const [style, setStyle] = useState('timeRemainingNotifierSteady');
   useEffect(() => {
     if (props.minutesRemaining <= 5) {
+      setStyle('timeRemainingNotifier');
       alarm.loop = true;
       alarm.play();
     } else {
+      setStyle('timeRemainingNotifierSteady');
       alarm.pause();
     }
-  });
-  if (props.minutesRemaining > 5) return null;
+  }, [props.minutesRemaining]);
 
   return(
-      <div className='timeRemainingNotifier'>
+      <div className={style}>
         {props.minutesRemaining} {(props.minutesRemaining > 1) ? 'minutes' : 'minute' } until empty
       </div>
   )
 }
 
 TimeRemainingNotifier.propTypes = {
-  minutesRemaining: PropTypes.number
+  minutesRemaining: PropTypes.number,
+  isExpanded: PropTypes.bool
 };
 
 export default TimeRemainingNotifier;

@@ -12,3 +12,11 @@
 
     animation: blink .5s step-end infinite alternate;
 }
+
+.timeRemainingNotifierSteady {
+    background-color: white;
+    align-content: center;
+
+    border-radius: 0.25rem;
+    padding: 0.2rem 0.2rem;
+}

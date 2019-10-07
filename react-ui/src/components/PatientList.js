@@ -27,8 +27,6 @@ function PatientList(props) {
                        currentDripRate={patient.currentDripRate}
                        dripFactor={patient.dripFactor}
                        currentWeight={patient.currentWeight}
-                       getPatientInformation={props.getPatientInformation}
-                       idChangedCard={props.idChangedCard}
 
           />
       ))}

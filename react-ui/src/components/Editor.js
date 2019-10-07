@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -6,20 +6,19 @@ import '../css/editor.css';
 
 function Editor(props){
   const [modified, setModified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [patientInformation, setPatientInformation] = useState({
-    id: props.id,
-    lastName: props.information.lastName,
-    firstName: props.information.firstName,
-    middleName:props.information.middleName,
-    age: props.information.age,
-    weight: props.information.weight,
-    height: props.information.height,
-    gender: props.information.gender,
-    comments: props.information.comments,
-    dripFactor: props.dripFactor,
-    targetDripRate: props.targetDripRate
-  });
+  const [patientInformation, setPatientInformation] = useState({});
+  useEffect(() => {
+    setIsLoading(true);
+    axios.get(`/api/patient/${props.id}/full`)
+        .then((res) => {
+          setPatientInformation(res.data);
+          setIsLoading(false);
+        }).catch((err) => {
+          console.log(err);
+    })
+  }, []);
 
   function handleInputChange(e) {
     const target = e.target;
@@ -41,12 +40,13 @@ function Editor(props){
     }
 
     if (patientInformation.dripFactor && patientInformation.targetDripRate) {
+      console.log(patientInformation);
       axios.post('/api/edit', patientInformation)
           .then(res => {
             if (res.status === 200) {
               setTimeout(() => {
                 props.closeModal();
-                props.triggerChange()
+                props.refreshCard();
               }, 1000);
             } else if (res.status === 400) {
               alert('Something went wrong.')
@@ -58,9 +58,15 @@ function Editor(props){
     }
   }
 
+  if (isLoading === true) {
+    return (
+        <p>Loading...</p>
+    )
+  }
+
   return(
       <div>
-        <form onSubmit={e => e.preventDefault()} autoComplete='off'>
+        <form onClick={(e) => e.stopPropagation()} onSubmit={e => e.preventDefault()} autoComplete='off'>
           <div className='div-input'>
             <p className='label-input'>Last Name</p>
             <input type='text' name='lastName' defaultValue={patientInformation.lastName} onChange={e => handleInputChange(e)}/>
@@ -123,20 +129,11 @@ function Editor(props){
 
 Editor.propTypes = {
   id: PropTypes.string,
-  information: PropTypes.shape({
-    lastName: PropTypes.string,
-    firstName: PropTypes.string,
-    middleName: PropTypes.string,
-    age: PropTypes.number,
-    weight: PropTypes.number,
-    gender: PropTypes.string,
-    comments: PropTypes.string,
-  }),
   dripFactor: PropTypes.number,
   targetDripRate: PropTypes.number,
   closeModal: PropTypes.func,
   triggerChange: PropTypes.func,
-  //refreshCard: PropTypes.func
+  refreshCard: PropTypes.func
 };
 
 export default Editor;

@@ -6,6 +6,8 @@ import '../css/patientcard.css';
 
 import PatientName from "./PatientName";
 import DripData from "./DripData";
+import MoreDetails from "./MoreDetails";
+import Controls from "./Controls";
 
 function PatientCard(props) {
   const [patientData, setPatientData] = useState({lastName: null, firstName: null, middleName: null});
@@ -21,24 +23,45 @@ function PatientCard(props) {
 
         });
     if (hasChanged) setHasChanged(false);
-  }, [hasChanged, props.idChangedCard]);
+  }, [hasChanged]);
+
+  function refreshCard(){
+    setHasChanged(true);
+  }
 
   let {lastName, firstName, middleName} = patientData;
 
-  //IV Details
-
+  const [expand, setExpand] = useState(false);
+  function toggleMore(){
+    if (expand === true) {
+      setExpand(false);
+    } else {
+      setExpand(true);
+    }
+  }
 
   let connectionStatus = (!props.isConnected) ? <div className='connectionStatus'>Device is disconnected.</div> : null ;
 
   return (
-      <div title='Click for more patient details' className='card' onClick={() => {props.getPatientInformation(props._id)}}>
+      <div title='Click for more patient details' className='card' onClick={() => {toggleMore()}}>
         <PatientName id={props._id} lastName={lastName} firstName={firstName} middleName={middleName}/>
+        {(expand) &&
+          <MoreDetails id={props._id}/>
+        }
         <DripData currentDripRate={props.currentDripRate}
                   currentWeight={props.currentWeight}
                   targetDripRate={props.targetDripRate}
                   dripFactor={props.dripFactor}
+                  isExpanded={expand}
         />
         {connectionStatus}
+        {(expand) &&
+          <Controls id={props._id}
+                    targetDripRate={props.targetDripRate}
+                    dripFactor={props.dripFactor}
+                    refreshCard={refreshCard}
+          />
+        }
       </div>
   )
 }

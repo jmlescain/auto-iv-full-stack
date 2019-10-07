@@ -66,7 +66,9 @@ function DripData(props){
           <div>{currentWeight}</div>
         </div>
         <div>
-          <TimeRemainingNotifier minutesRemaining={minutesRemaining} />
+          {(minutesRemaining < 5 || props.isExpanded) &&
+            <TimeRemainingNotifier minutesRemaining={minutesRemaining} isExpanded={props.isExpanded}/>
+          }
         </div>
       </div>
   )
@@ -76,7 +78,8 @@ DripData.propTypes = {
   currentDripRate: PropTypes.number,
   currentWeight: PropTypes.number,
   targetDripRate: PropTypes.number,
-  dripFactor: PropTypes.number
+  dripFactor: PropTypes.number,
+  isExpanded: PropTypes.bool
 };
 
 export default DripData;

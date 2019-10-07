@@ -1,15 +1,19 @@
 .card {
     width: 20rem;
-    height: 12rem;
+    height: fit-content;
 
     margin: 0.5rem 0.25rem;
 
-    padding: 0 1rem;
+    padding: 1rem 1rem;
 
     border: 3px solid black;
     border-radius: 0.5rem;
 
     background-color: white;
+
+    transition-property: height;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
 }
 
 .card:hover {

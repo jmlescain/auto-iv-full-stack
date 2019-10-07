@@ -85,7 +85,7 @@ if (!isDev && cluster.isMaster) {
   app.get('/api/patient/:id/full', (req, res) => {
     let id = req.params.id;
     PatientDataSchema.findOne({_id: id},
-        'lastName firstName middleName age weight height gender comments',
+        'lastName firstName middleName age weight height gender comments targetDripRate dripFactor',
         (err, docs) => {
                     if (err) {
                       console.log(err);
@@ -103,14 +103,14 @@ if (!isDev && cluster.isMaster) {
   app.use(bodyParser.json());
 
   app.post('/api/edit', ((req, res) => {
-    let {id} = req.body;
-    PatientDataSchema.findByIdAndUpdate(id, req.body, (err, result) => {
+    let {_id} = req.body;
+    PatientDataSchema.findByIdAndUpdate(_id, req.body, (err, result) => {
       if (err) {
         console.log(err);
         res.status(500).send(`There was an error! ${err}`);
       } else if (result) {
         res.status(200).send();
-        console.log(`Data for ${id} was edited.`);
+        console.log(`Data for ${_id} was edited.`);
         sendValues();
       }
     })

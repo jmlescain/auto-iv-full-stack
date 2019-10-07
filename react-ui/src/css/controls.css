@@ -1,0 +1,15 @@
+.buttonRow{
+    margin-top: 0.5rem;
+}
+
+.editButton{
+    height: 2.5rem;
+    width: 2.5rem;
+
+    float: right;
+}
+
+.editButton:hover {
+    cursor: pointer;
+    filter: opacity(50%);
+}
