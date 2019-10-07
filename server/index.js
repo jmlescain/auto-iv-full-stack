@@ -180,7 +180,7 @@ if (!isDev && cluster.isMaster) {
       if (weight <= 30) {
         weight = -1
       } else {
-        weight = (weight - 42 );
+        weight = (weight - 90 );
         //weight = (weight - 42 )* 0.946969697;
         if (weight > 500) weight = 500;
         weight = Math.trunc(weight);
