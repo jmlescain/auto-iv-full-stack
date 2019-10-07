@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import axios from "axios";
 
+import '../css/moredetails.css';
+
 function MoreDetails(props){
 
   const [information, setInformation] = useState({});
@@ -30,7 +32,10 @@ function MoreDetails(props){
   }
 
   return(
-      <div>
+      <div className='moreDetails'>
+        {(!age && !weight && !height && !gender && !comments) &&
+            <p>No Additional Data</p>
+        }
         <div className='genderAge'>
           <div>{gender && <p>Gender: <span style={{fontWeight: 'bold'}}>{gender}</span></p>}</div>
           <div>{age && <p>Age: <span style={{fontWeight: 'bold'}}>{age} Years Old</span></p>}</div>

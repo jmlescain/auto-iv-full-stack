@@ -217,7 +217,7 @@ if (!isDev && cluster.isMaster) {
             if (res) console.log('a device disconnected', mac);
             sendValues();
           } catch(err) {
-            console.log('There was an error setting device to disconnected: ',err)
+            console.log('There was an error setting device to disconnected: ', err)
           }
         }
 
