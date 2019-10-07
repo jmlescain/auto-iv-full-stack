@@ -23,7 +23,7 @@ function MoreDetails(props){
     }
   }, [props.id, hasChanged]);
 
-  let {age, weight, height, gender, comments} = information;
+  let {age, weight, height, gender, comments, targetDripRate, dripFactor} = information;
 
   if (isLoading) {
     return(
@@ -36,15 +36,26 @@ function MoreDetails(props){
         {(!age && !weight && !height && !gender && !comments) &&
             <p>No Additional Data</p>
         }
-        <div className='genderAge'>
-          <div>{gender && <p>Gender: <span style={{fontWeight: 'bold'}}>{gender}</span></p>}</div>
-          <div>{age && <p>Age: <span style={{fontWeight: 'bold'}}>{age} Years Old</span></p>}</div>
+        <div className='container'>
+          <div>
+            <div>
+              <div>{gender && <p>Gender: <span style={{fontWeight: 'bold'}}>{gender}</span></p>}</div>
+              <div>{age && <p>Age: <span style={{fontWeight: 'bold'}}>{age} y/o</span></p>}</div>
+            </div>
+            <div>
+              <div>{weight && <p>Weight:<span style={{fontWeight: 'bold'}}>{weight} kg</span></p>}</div>
+              <div>{height && <p>Height: <span style={{fontWeight: 'bold'}}>{height} cm</span></p>}</div>
+            </div>
+            <div>{comments && <p>Notes: <span style={{fontWeight: 'bold'}}>{comments}</span></p>}</div>
+          </div>
+          <div>
+            <div>
+              <div>{targetDripRate && <p>Target: <span style={{fontWeight: 'bold'}}>{targetDripRate} gtts</span></p>}</div>
+              <div>{dripFactor && <p>Factor: <span style={{fontWeight: 'bold'}}>{dripFactor} gtts/mL</span></p>}</div>
+            </div>
+          </div>
         </div>
-        <div className='weightHeight'>
-          <div>{weight && <p>Weight:<span style={{fontWeight: 'bold'}}>{weight} kg</span></p>}</div>
-          <div>{height && <p>Height: <span style={{fontWeight: 'bold'}}>{height} cm</span></p>}</div>
-        </div>
-        <div>{comments && <p>Notes: <span style={{fontWeight: 'bold'}}>{comments}</span></p>}</div>
+
       </div>
   )
 }
