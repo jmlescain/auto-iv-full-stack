@@ -11,11 +11,8 @@ import Controls from "./Controls";
 
 function PatientCard(props) {
   const [patientData, setPatientData] = useState({lastName: null, firstName: null, middleName: null});
-  const [hasChanged, setHasChanged] = useState(false);
-  /*useEffect(()=>{
-    if (props.idChangedCard === props._id) setHasChanged(true);
-  }, []);*/
 
+  const [hasChanged, setHasChanged] = useState(false);
   useEffect(() => {
     axios.get(`/api/patient/${props._id}`)
         .then((response) => {
@@ -73,13 +70,6 @@ PatientCard.propTypes = {
   targetDripRate: PropTypes.number,
   dripFactor: PropTypes.number,
   isConnected: PropTypes.bool,
-  /*  iv: PropTypes.shape({
-      targetDripRate: PropTypes.number,
-      currentDripRate: PropTypes.number,
-      currentWeight: PropTypes.number,
-      estimatedWeightEmpty: PropTypes.number,
-      isConnected: PropTypes.bool
-    }),*/
   getPatientInformation: PropTypes.func,
   idChangedCard: PropTypes.string
 };
