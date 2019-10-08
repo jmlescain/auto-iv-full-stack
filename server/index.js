@@ -165,7 +165,8 @@ if (!isDev && cluster.isMaster) {
 
     socket.on('values', (values) => {
       let {pulse, weight} = values;
-      let currentDripRate;
+      console.log(values);
+      let currentDripRate = 0;
 
       if (pulse > 100000) {
         let dripRatePerSecond = 1000000.00 / pulse;
