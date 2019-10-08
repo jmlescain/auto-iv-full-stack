@@ -13,7 +13,7 @@ import TimeRemainingNotifier from "./TimeRemainingNotifier";
 function DripData(props){
 
   const [currentDripRate, setCurrentDripRate] = useState('');
-  useEffect(()=>{
+  useEffect(() => {
     setCurrentDripRate((props.currentDripRate === undefined) ? '0 gtts' : `${props.currentDripRate} gtts`);
   }, [props.currentDripRate]);
 

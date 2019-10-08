@@ -121,7 +121,6 @@ if (!isDev && cluster.isMaster) {
   // Socket.io things
   io.on('connect', (socket) => {
     let mac;
-    let currentDripRate = 0;
 
     socket.on('identify', (msg) => {
       //console.log(msg);
@@ -166,7 +165,7 @@ if (!isDev && cluster.isMaster) {
 
     socket.on('values', (values) => {
       let {pulse, weight} = values;
-      console.log(values);
+      let currentDripRate;
 
       if (pulse > 100000) {
         let dripRatePerSecond = 1000000.00 / pulse;
